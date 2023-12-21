@@ -50,8 +50,8 @@ const Navbar = () => {
             <button onClick={handleLogout} className="btn">Logout</button>
           </div>
             :
-            <div>
-              <Link to='/login'><button className="btn">Login/Register</button></Link>
+            <div className="flex gap-4">
+              <Link to='/login'><button className="btn">Login</button></Link>
               <Link to='/register'><button className="btn">Register</button></Link>
             </div>
         }

@@ -9,6 +9,7 @@ import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import DashboardLayout from "../layout/DashboardLayout";
 
   const router = createBrowserRouter([
     {
@@ -33,10 +34,6 @@ import Register from "../pages/Register/Register";
           element: <Contact></Contact>
         },
         {
-          path: '/dashboard',
-          element: <Dashboard></Dashboard>
-        },
-        {
           path: '/login',
           element: <Login></Login>
         },
@@ -46,6 +43,17 @@ import Register from "../pages/Register/Register";
         }
       ]
     },
+    {
+      path: "/dashboard",
+      element: <DashboardLayout></DashboardLayout>,
+      errorElement: 'route not found',
+      children: [
+        {
+          path: '/dashboard',
+          element: <Dashboard></Dashboard>
+        }
+      ]
+    }
   ]);
 
 
