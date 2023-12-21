@@ -1,15 +1,23 @@
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 
 const Navbar = () => {
 
-    const user = 'shorif'
+    const {user, logout} = useAuth();
+    const handleLogout = ()=>{
+      logout()
+      toast.success('Logout Success')
+    }
 
     const navLinks = <>
     <li> <NavLink to='/'>Home</NavLink> </li>
     <li> <NavLink to='/features'>Features</NavLink> </li>
     <li> <NavLink to='/about'>About</NavLink> </li>
     <li> <NavLink to='/contact'>Contact</NavLink> </li>
+    <li className="flex items-center justify-center font-bold "> {user?.displayName} </li>
+
     
     
     
@@ -25,7 +33,7 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </div>
-        <NavLink><a className="btn btn-ghost normal-case text-xl">LOVEO</a></NavLink>
+        <NavLink><a className="btn btn-ghost normal-case text-xl">CREW TASKER</a></NavLink>
 
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -39,11 +47,12 @@ const Navbar = () => {
         {
           user ? <div className="flex gap-4">
             <Link to='/dashboard'  className="btn btn-ghost">Dashboard</Link>
-            <button  className="btn">Logout</button>
+            <button onClick={handleLogout} className="btn">Logout</button>
           </div>
             :
             <div>
               <Link to='/login'><button className="btn">Login/Register</button></Link>
+              <Link to='/register'><button className="btn">Register</button></Link>
             </div>
         }
       </div>
