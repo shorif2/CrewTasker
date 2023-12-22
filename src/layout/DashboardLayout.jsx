@@ -9,15 +9,17 @@ const DashboardLayout = () => {
             <DashSlideBar></DashSlideBar>
             </div>
             {/* Outlet */}
-            <div style={{ width: 'calc(100vw - 280px)' }} className="p-8 ">
-                <div className="flex justify-between">
+            <div style={{ width: 'calc(100vw - 280px)' }} className="p-8 h-full">
+                <div className="flex justify-between h-full">
                 <h2>Dashboard</h2>
                 <div className="flex gap-2">
                 <Plus className="text-red-500" size={24} />
                 <button>Add Task</button>
                 </div>
                 </div>
+                <div className="h-full">
                 <Outlet></Outlet>
+                </div>
                 
             </div>
         </div>

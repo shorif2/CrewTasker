@@ -1,22 +1,26 @@
 import * as React from 'react';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Modal from '../../components/Modal/Modal';
 
 const INITIAL_LIST = [
     {
         id: '1',
         firstName: 'Robin',
         lastName: 'Wieruch',
+        status: 'todo'
     },
     {
         id: '2',
         firstName: 'Aiden',
         lastName: 'Kettel',
+        status: 'todo'
     },
     {
         id: '3',
         firstName: 'Jannet',
         lastName: 'Layn',
+        status: 'todo'
     },
 ];
 
@@ -30,40 +34,80 @@ const Dashboard = () => {
         column3: [],
     });
 
+    // const onDragEnd = (result) => {
+    //     const { source, destination } = result;
+
+    //     if (!destination) {
+    //         return;
+    //     }
+
+    //     if (source.droppableId === destination.droppableId) {
+    //         const newList = Array.from(lists[source.droppableId]);
+    //         const [removed] = newList.splice(source.index, 1);
+    //         newList.splice(destination.index, 0, removed);
+
+    //         setLists({
+    //             ...lists,
+    //             [source.droppableId]: newList,
+    //         });
+    //     } else {
+    //         const sourceList = Array.from(lists[source.droppableId]);
+    //         const destinationList = Array.from(lists[destination.droppableId]);
+    //         const [movedItem] = sourceList.splice(source.index, 1);
+
+    //         destinationList.splice(destination.index, 0, movedItem);
+
+    //         setLists({
+    //             ...lists,
+    //             [source.droppableId]: sourceList,
+    //             [destination.droppableId]: destinationList,
+    //         });
+    //     }
+    // };
+
     const onDragEnd = (result) => {
         const { source, destination } = result;
-
+      
         if (!destination) {
-            return;
+          return;
         }
-
-        if (source.droppableId === destination.droppableId) {
-            const newList = Array.from(lists[source.droppableId]);
-            const [removed] = newList.splice(source.index, 1);
-            newList.splice(destination.index, 0, removed);
-
-            setLists({
-                ...lists,
-                [source.droppableId]: newList,
-            });
-        } else {
-            const sourceList = Array.from(lists[source.droppableId]);
-            const destinationList = Array.from(lists[destination.droppableId]);
-            const [movedItem] = sourceList.splice(source.index, 1);
-
-            destinationList.splice(destination.index, 0, movedItem);
-
-            setLists({
-                ...lists,
-                [source.droppableId]: sourceList,
-                [destination.droppableId]: destinationList,
-            });
+      
+        const sourceList = Array.from(lists[source.droppableId]);
+        const destinationList = Array.from(lists[destination.droppableId]);
+        const [movedItem] = sourceList.splice(source.index, 1);
+      
+        // Determine the new status based on the destination column
+        let newStatus;
+        switch (destination.droppableId) {
+          case 'column1':
+            newStatus = 'todo';
+            break;
+          case 'column2':
+            newStatus = 'ongoing';
+            break;
+          case 'column3':
+            newStatus = 'complete';
+            break;
+          default:
+            newStatus = 'todo'; // default to 'todo' if the destination column is unknown
         }
-    };
-
+      
+        // Update the status property
+        const updatedItem = { ...movedItem, status: newStatus };
+        destinationList.splice(destination.index, 0, updatedItem);
+      
+        setLists({
+          ...lists,
+          [source.droppableId]: sourceList,
+          [destination.droppableId]: destinationList,
+        });
+      };
     //   end
     return (
-        <div>
+        <div className='h-full'>
+            <div className='py-10'>
+                <Modal></Modal>
+            </div>
             {/* <div>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <div style={{ display: 'flex' }}>
@@ -128,6 +172,8 @@ const Dashboard = () => {
                                                     }}
                                                 >
                                                     {`${item.firstName} ${item.lastName}`}
+                                                    {item.id}
+                                                    {item.status}
                                                 </div>
                                             )}
                                         </Draggable>
@@ -160,6 +206,8 @@ const Dashboard = () => {
                                                     }}
                                                 >
                                                     {`${item.firstName} ${item.lastName}`}
+                                                    {item.id}
+                                                    {item.status}
                                                 </div>
                                             )}
                                         </Draggable>
@@ -191,6 +239,8 @@ const Dashboard = () => {
                                                     }}
                                                 >
                                                     {`${item.firstName} ${item.lastName}`}
+                                                    {item.id}
+                                                    {item.status}
                                                 </div>
                                             )}
                                         </Draggable>
